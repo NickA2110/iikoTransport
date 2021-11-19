@@ -21,6 +21,9 @@ trait CommonTrait
 			RequestException::class,
 			"Empty uri is not thowing exception"
 		);
+		$this->expectExceptionCode(
+			RequestException::THE_URI_PROPERTY_IS_NOT_SET
+		);
 		$sUri = $oRequest->getUri();
 	}
 

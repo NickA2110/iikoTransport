@@ -11,8 +11,10 @@ class Common
     protected $nStatusCode;
 
     protected $aHeaders;
-
+    
     protected $sBody;
+
+    protected $aBody;
 
     public function __construct(
         CommonRequest $oRequest,
@@ -24,6 +26,7 @@ class Common
         $this->nStatusCode = $nStatusCode;
         $this->aHeaders = $aHeaders;
         $this->sBody = $sBody;
+        $this->aBody = json_decode($this->sBody, true);
     }
 
     public function isHasError(): bool
@@ -31,18 +34,27 @@ class Common
         return $this->nStatusCode != 200;
     }
 
-    public function getBody(): string
-    {
-        return $this->sBody;
-    }
-
     public function getStatusCode(): int
     {
         return $this->nStatusCode;
     }
-    
-    public function toArray(): array
+
+    public function getBodyAsString(): string
     {
-      return json_decode($this->getBody(), true); 
+        return $this->sBody;
+    }
+
+    public function getBodyAsArray(): array {
+        if (!is_array($this->aBody)) {
+            throw new Exception(
+                "Type of body is not array",
+                Exception::TYPE_OF_BODY_IS_NOT_ARRAY
+            );
+        }
+        return $this->aBody;
+    }
+
+    public function getRequest(): CommonRequest {
+        return $this->oRequest;
     }
 }
