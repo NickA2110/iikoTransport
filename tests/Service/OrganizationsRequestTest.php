@@ -12,6 +12,9 @@ class OrganizationsRequestTest extends TestCase
 	public function testGoodResponse() {
 		$oClient = new Client(ApiKey::getApiKey());
 		$oRequest = new OrganizationsRequest();
+		$oRequest
+			->setOrganizationIds([])
+			->setReturnAdditionalInfo();
 		
 		$oResponse = $oClient->requestOnlyCommonResponse($oRequest);
 

@@ -20,7 +20,7 @@ trait CommonTrait
 		$oRequest->setUri('');
 		$this->expectException(
 			RequestException::class,
-			"Empty uri is not thowing exception"
+			"Empty uri is not throwing exception"
 		);
 		$this->expectExceptionCode(
 			RequestException::THE_URI_PROPERTY_IS_NOT_SET
