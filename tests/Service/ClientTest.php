@@ -1,6 +1,6 @@
 <?php 
 
-namespace IikoTransport\Tests;
+namespace IikoTransport\Tests\Service;
 
 use IikoTransport\Request\Common as RequestCommon;
 use IikoTransport\Service\Client;
@@ -20,7 +20,7 @@ class ClientTest extends TestCase
 				'returnAdditionalInfo' => false,
 				'includeDisabled' => false,
 			]);
-		$oResponse = $oClient->request($oRequest);
+		$oResponse = $oClient->requestOnlyCommonResponse($oRequest);
 
 		$this->assertEquals(
 			$nHttpCode = 200,
@@ -46,7 +46,7 @@ class ClientTest extends TestCase
 		$this->expectExceptionCode(
 			ClientException::API_ERROR_TO_GET_TOKEN
 		);
-		$oResponse = $oClient->request($oRequest);
+		$oResponse = $oClient->requestOnlyCommonResponse($oRequest);
 
 		$this->assertEquals(
 			$nHttpCode = 200,

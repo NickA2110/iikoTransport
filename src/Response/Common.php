@@ -39,6 +39,11 @@ class Common
         return $this->nStatusCode;
     }
 
+    public function getHeaders(): array 
+    {
+        return $this->aHeaders;
+    }
+
     public function getBodyAsString(): string
     {
         return $this->sBody;

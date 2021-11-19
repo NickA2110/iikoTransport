@@ -17,6 +17,7 @@ trait CommonTrait
 
 	public function testGetEmptyUri() {
 		$oRequest = $this->getRequest();
+		$oRequest->setUri('');
 		$this->expectException(
 			RequestException::class,
 			"Empty uri is not thowing exception"

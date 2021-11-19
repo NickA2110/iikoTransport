@@ -2,16 +2,15 @@
 
 namespace IikoTransport\Tests\Request;
 
+use IikoTransport\Request\Common as Request; 
 use PHPUnit\Framework\TestCase;
-use IikoTransport\Request\Common as RequestCommon; 
-use IikoTransport\Request\Exception as RequestException; 
 
 class CommonTest extends TestCase 
 {
 	use CommonTrait;
 
-	function getRequest(): RequestCommon {
-		$oRequest = new RequestCommon();
+	function getRequest(): Request {
+		$oRequest = new Request();
 		return $oRequest;
 	}
 }

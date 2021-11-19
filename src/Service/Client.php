@@ -3,22 +3,21 @@ namespace IikoTransport\Service;
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Psr7\Response as HttpResponse;
-use IikoTransport\Request\Common as CommonRequest;
 use IikoTransport\Request\AccessToken as AccessTokenRequest;
+use IikoTransport\Request\Common as CommonRequest;
 use IikoTransport\Response\Common as CommonResponse;
 use IikoTransport\Response\Error as ErrorResponse;
+use IikoTransport\Response\Factory as ResponseFactory;
 
 class Client 
 {
 	const BASE_API_URL = 'https://api-ru.iiko.services/api/1/';
 
-	const AUTH_URL = 'access_token';
-
-	protected $sToken; 
-
 	protected $apiKey; 
 
 	protected $oHttpClient; 
+
+	protected $sToken; 
 
 	public function __construct(string $apiKey) {
 		$this->apiKey = $apiKey; 
@@ -36,6 +35,11 @@ class Client
 	}
 
 	public function request(CommonRequest $oRequest): CommonResponse {
+		$oCommonResponse = $this->requestOnlyCommonResponse($oRequest);
+		return ResponseFactory::getTypedResponse($oCommonResponse);
+	}
+
+	public function requestOnlyCommonResponse(CommonRequest $oRequest): CommonResponse {
 		$this->getToken(); 
 		return $this->doApiCall($oRequest);
 	}
@@ -93,36 +97,35 @@ class Client
 				'json' => $oRequest->getData()
 			]
 		);
-		return $this->processHttpRequest($oRequest, $oResponse);
-	}
-
-	function processHttpRequest(CommonRequest $oRequest, HttpResponse $oResponse): CommonResponse {
-		if ($oResponse->getStatusCode() == 200) {
-			$oResponse = new CommonResponse(
-				$oRequest,
-				$oResponse->getStatusCode(),
-				$oResponse->getHeaders(),
-				$oResponse->getBody()
-			);
-		} else {
-			$oResponse = new ErrorResponse(
-				$oRequest,
-				$oResponse->getStatusCode(),
-				$oResponse->getHeaders(),
-				$oResponse->getBody()
-			);
-			$nErrorCode = $oResponse->getStatusCode();
-			$sErrorMessage = $oResponse->getErrorMessage();
-			$oException = new Exception(
-				"API response error ({$nErrorCode}: {$sErrorMessage})",
-				Exception::API_RESPONSE_ERROR_HTTP_STATUS
-			);
-			$oException->setResponse($oResponse);
-			throw $oException;
+		$oResponse = new CommonResponse(
+			$oRequest,
+			$oResponse->getStatusCode(),
+			$oResponse->getHeaders(),
+			$oResponse->getBody()
+		);
+		if ($oResponse->getStatusCode() != 200) {
+			$this->throwError($oResponse);
 		}
 		return $oResponse;
 	}
-	
+
+	function throwError(CommonResponse $oResponse) {
+		$oErrorResponse = new ErrorResponse(
+			$oResponse->getRequest(),
+			$oResponse->getStatusCode(),
+			$oResponse->getHeaders(),
+			$oResponse->getBodyAsString()
+		);
+		$nErrorCode = $oErrorResponse->getStatusCode();
+		$sErrorMessage = $oErrorResponse->getErrorMessage();
+		$oException = new Exception(
+			"API response error ({$nErrorCode}: {$sErrorMessage})",
+			Exception::API_RESPONSE_ERROR_HTTP_STATUS
+		);
+		$oException->setResponse($oErrorResponse);
+		throw $oException;
+	}
+
 	public function getApiKey(): string
 	{
 		return $this->apiKey;
