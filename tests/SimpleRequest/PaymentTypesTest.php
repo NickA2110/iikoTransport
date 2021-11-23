@@ -3,11 +3,11 @@
 namespace IikoTransport\Tests\SimpleRequest;
 
 use IikoTransport\Request\Common as CommonRequest;
-use IikoTransport\Request\TerminalGroups as Request;
+use IikoTransport\Request\PaymentTypes as Request;
 use IikoTransport\Tests\ApiKey;
 use PHPUnit\Framework\TestCase;
 
-class TerminalGroupsTest extends TestCase
+class PaymentTypesTest extends TestCase
 {
 	use SimpleTrait;
 
@@ -23,6 +23,6 @@ class TerminalGroupsTest extends TestCase
 
 	function checkResponse(array $aBody, string $sBody)
 	{
-		$this->assertNotEmpty($aBody['terminalGroups']);
+		$this->assertNotEmpty($aBody['paymentTypes']);
 	}
 }

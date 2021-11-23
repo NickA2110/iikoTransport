@@ -16,7 +16,7 @@ class OrganizationsRequestTest extends TestCase
 		return $oRequest;
 	}
 
-	function checkResponse(array $aBody)
+	function checkResponse(array $aBody, string $sBody)
 	{
 		$this->assertNotEmpty($aBody['organizations']);
 	}

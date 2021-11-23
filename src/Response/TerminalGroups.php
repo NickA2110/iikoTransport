@@ -2,7 +2,6 @@
 
 namespace IikoTransport\Response;
 
-use IikoTransport\Entity\TerminalGroup\TerminalGroup as TerminalGroupEntity;
 use IikoTransport\Entity\TerminalGroup\TerminalGroups as TerminalGroupsEntity;
 
 class TerminalGroups
@@ -43,14 +42,7 @@ class TerminalGroups
 		);
 	}
 
-	function getTerminalGroup(array $aTerminalGroup): TerminalGroupEntity
-	{
-		return new TerminalGroupEntity(
-			$aTerminalGroup['id'],
-			$aTerminalGroup['organizationId'],
-			$aTerminalGroup['name'],
-		);
-	}
+	use TerminalGroupTrait;
 
 	public function getTerminalGroups(): array
 	{

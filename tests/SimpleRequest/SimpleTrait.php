@@ -15,7 +15,7 @@ trait SimpleTrait
 
 	abstract function getRequest(): CommonRequest;
 
-	abstract function checkResponse(array $aBody);
+	abstract function checkResponse(array $aBody, string $sBody);
 
 	public function testGoodResponse()
 	{
@@ -25,6 +25,9 @@ trait SimpleTrait
 			$this->getRequest()
 		);
 
-		$this->checkResponse($oResponse->getBodyAsArray());
+		$this->checkResponse(
+			$oResponse->getBodyAsArray(),
+			$oResponse->getBodyAsString()
+		);
 	}
 }
