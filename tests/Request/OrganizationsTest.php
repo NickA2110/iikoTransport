@@ -7,9 +7,8 @@ use PHPUnit\Framework\TestCase;
 
 class OrganizationsTest extends TestCase 
 {
-	var $sOrganizationGuid = 'some-guid';
-
-	use CommonTrait;
+	use CommonTrait,
+		OrganizationsAndIncludeDisabledTrait;
 
 	public function testUri() {
 		$oRequest = $this->getRequest();
@@ -20,17 +19,6 @@ class OrganizationsTest extends TestCase
 		);
 	}
 
-	public function testSetOrganizationIds() {
-		$oRequest = $this->getRequest();
-		$oRequest->setOrganizationIds([$this->sOrganizationGuid]);
-		$aData = $oRequest->getData();
-		$this->assertContains(
-			$this->sOrganizationGuid,
-			$aData['organizationIds'],
-			"Data in request 'organizationIds' not contains '{$this->sOrganizationGuid}'"
-		);
-	}
-
 	public function testReturnAdditionalInfo() {
 		$oRequest = $this->getRequest();
 		$oRequest->setReturnAdditionalInfo();
@@ -38,16 +26,6 @@ class OrganizationsTest extends TestCase
 		$this->assertTrue(
 			$aData['returnAdditionalInfo'],
 			"Data in request 'returnAdditionalInfo' not is 'true'"
-		);
-	}
-
-	public function testSetIncludeDisabled() {
-		$oRequest = $this->getRequest();
-		$oRequest->setIncludeDisabled();
-		$aData = $oRequest->getData();
-		$this->assertTrue(
-			$aData['includeDisabled'],
-			"Data in request 'includeDisabled' not is 'true'"
 		);
 	}
 

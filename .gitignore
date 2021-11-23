@@ -1,2 +1,5 @@
 /vendor/
 tags
+.phpunit.result.cache
+testKeys
+

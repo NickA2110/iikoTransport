@@ -7,7 +7,7 @@ use IikoTransport\Entity\Organization\Exception as OrganizationException;
 use IikoTransport\Response\Organizations as OrganizationsResponse; 
 use PHPUnit\Framework\TestCase;
 
-class SimpleOrganizationResponseTest extends TestCase 
+class OrganizationsTest extends TestCase 
 {
 
 	/** @dataProvider providerCreateResponse */
