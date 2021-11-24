@@ -8,6 +8,7 @@ class Exception extends \IikoTransport\Exception
 
 	const TYPE_OF_BODY_IS_NOT_ARRAY = 1;
 	const API_RESPONSE_ERROR_HTTP_STATUS = 2;
+	const RESPONSE_CLASS_IS_NOT_EXISTS = 3;
 
 	public function setResponse(Common $oResponse): self
 	{
