@@ -4,17 +4,23 @@ namespace IikoTransport\Response;
 
 use IikoTransport\Entity\TerminalGroup\TerminalGroups as TerminalGroupsEntity;
 
-class TerminalGroups
+class TerminalGroups extends Common
 {
-	var $aTerminalGroups = [];
+	var $aTerminalGroups;
 
-	function __construct(array $aResponseBody)
+	public function parseBody(): IResponse
 	{
-		if (!empty($aResponseBody['terminalGroups'])) {
+		$this->aTerminalGroups = [];
+
+		$aBody = $this->getBodyAsArray();
+
+		if (!empty($aBody['terminalGroups'])) {
 			$this->aTerminalGroups = $this->getTerminalGroupsFromResponseArray(
-				$aResponseBody['terminalGroups']
+				$aBody['terminalGroups']
 			);
 		}
+
+		return $this;
 	}
 
 	function getTerminalGroupsFromResponseArray(array $aTerminalGroups): array
@@ -46,6 +52,9 @@ class TerminalGroups
 
 	public function getTerminalGroups(): array
 	{
+		if (!is_array($this->aTerminalGroups)) {
+			$this->parseBody();
+		}
 		return $this->aTerminalGroups;
 	}
 }
