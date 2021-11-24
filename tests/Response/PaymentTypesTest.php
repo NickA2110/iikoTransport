@@ -3,6 +3,7 @@
 namespace IikoTransport\Tests\Response;
 
 use IikoTransport\Entity\PaymentType\EInterface;
+use IikoTransport\Request\Common as CommonRequest; 
 use IikoTransport\Response\PaymentTypes as Response; 
 use PHPUnit\Framework\TestCase;
 
@@ -12,9 +13,7 @@ class PaymentTypesTest extends TestCase
 	/** @dataProvider providerCreateResponse */
 	public function testCreateResponse($aResponse) {
 		
-		$oResponse = new Response(
-			$aResponse
-		);
+		$oResponse = $this->getResponseByArray($aResponse);
 		
 		$aPaymentTypes = $oResponse->getPaymentTypes();
 		$this->assertNotEmpty($aPaymentTypes);
@@ -25,6 +24,17 @@ class PaymentTypesTest extends TestCase
 			"The PaymentTypes Response return instance of not EInterface"
 		);
 	}
+
+  function getResponseByArray(array $aResponse): Response
+  {
+    $oResponse = new Response(
+      $oRequest = $this->createMock(CommonRequest::class),
+      $nHttpStatus = 200,
+      $aHeaders = [],
+      json_encode($aResponse)
+    );
+    return $oResponse->parseBody();
+  }
 
 	public function providerCreateResponse() {
 		$aResult = [];

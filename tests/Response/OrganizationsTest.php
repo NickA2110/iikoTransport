@@ -100,7 +100,6 @@ json_decode('[
 		$this->expectExceptionCode(OrganizationException::ORGANIZATION_TYPE_IS_NOT_DEFINED);
 		
 		$oOrganizationsResponse = $this->getResponseByArray($aResponse);
-		
 	}
 
 }

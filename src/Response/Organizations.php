@@ -7,10 +7,12 @@ use IikoTransport\Entity\Organization\OrganizationSimple;
 use IikoTransport\Entity\Organization\Exception as OrganizationException;
 
 class Organizations extends Common {
-	var $aOrganizations = [];
+	var $aOrganizations;
 
-	public function parseBody(): self
+	public function parseBody(): IResponse
 	{
+		$this->aOrganizations = [];
+
 		$aBody = $this->getBodyAsArray();
 
 		if (!empty($aBody['organizations'])) {
@@ -76,6 +78,9 @@ class Organizations extends Common {
 
 	public function getOrganizations(): array
 	{
+		if (!is_array($this->aOrganizations)) {
+			$this->parseBody();
+		}
 		return $this->aOrganizations;
 	}
 }

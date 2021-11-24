@@ -4,7 +4,7 @@ namespace IikoTransport\Response;
 
 use IikoTransport\Request\Common as CommonRequest;
 
-class Common
+class Common implements IResponse
 {
     protected $oRequest;
 
@@ -49,7 +49,8 @@ class Common
         return $this->sBody;
     }
 
-    public function getBodyAsArray(): array {
+    public function getBodyAsArray(): array
+    {
         if (!is_array($this->aBody)) {
             throw new Exception(
                 "Type of body is not array",
@@ -59,7 +60,13 @@ class Common
         return $this->aBody;
     }
 
-    public function getRequest(): CommonRequest {
+    public function getRequest(): CommonRequest
+    {
         return $this->oRequest;
+    }
+
+    public function parseBody(): IResponse
+    {
+        return $this;
     }
 }

@@ -4,17 +4,23 @@ namespace IikoTransport\Response;
 
 use IikoTransport\Entity\PaymentType\PaymentType as PaymentType;
 
-class PaymentTypes
+class PaymentTypes extends Common
 {
-	var $aPaymentTypes = [];
+	var $aPaymentTypes;
 
-	function __construct(array $aResponseBody)
+	public function parseBody(): IResponse
 	{
-		if (!empty($aResponseBody['paymentTypes'])) {
+		$this->aPaymentTypes = [];
+
+		$aBody = $this->getBodyAsArray();
+
+		if (!empty($aBody['paymentTypes'])) {
 			$this->aPaymentTypes = $this->getPaymentTypesFromResponseArray(
-				$aResponseBody['paymentTypes']
+				$aBody['paymentTypes']
 			);
 		}
+
+		return $this;
 	}
 
 	function getPaymentTypesFromResponseArray(array $aPaymentTypes): array
@@ -61,6 +67,9 @@ class PaymentTypes
 
 	public function getPaymentTypes(): array
 	{
+		if (!is_array($this->aPaymentTypes)) {
+			$this->parseBody();
+		}
 		return $this->aPaymentTypes;
 	}
 }
