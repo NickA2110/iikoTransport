@@ -2,9 +2,10 @@
 
 namespace IikoTransport\Tests\Response;
 
-use IikoTransport\Entity\Organization\OrganizationInterface;
 use IikoTransport\Entity\Organization\Exception as OrganizationException;
-use IikoTransport\Response\Organizations as OrganizationsResponse; 
+use IikoTransport\Entity\Organization\OrganizationInterface;
+use IikoTransport\Request\Common as CommonRequest; 
+use IikoTransport\Response\Organizations as Response; 
 use PHPUnit\Framework\TestCase;
 
 class OrganizationsTest extends TestCase 
@@ -13,9 +14,7 @@ class OrganizationsTest extends TestCase
 	/** @dataProvider providerCreateResponse */
 	public function testCreateResponse($aResponse) {
 		
-		$oOrganizationsResponse = new OrganizationsResponse(
-			$aResponse
-		);
+		$oOrganizationsResponse = $this->getResponseByArray($aResponse);
 		
 		$aOrganizations = $oOrganizationsResponse->getOrganizations();
 		$this->assertNotEmpty($aOrganizations);
@@ -25,6 +24,17 @@ class OrganizationsTest extends TestCase
 			is_subclass_of($oOrganization, OrganizationInterface::class),
 			"The OrganizationsResponse return instance of not OrganizationInterface"
 		);
+	}
+
+	function getResponseByArray(array $aResponse): Response
+	{
+		$oResponse = new Response(
+			$oRequest = $this->createMock(CommonRequest::class),
+			$nHttpStatus = 200,
+			$aHeaders = [],
+			json_encode($aResponse)
+		);
+		return $oResponse->parseBody();
 	}
 
 	public function providerCreateResponse() {
@@ -89,9 +99,7 @@ json_decode('[
 		);
 		$this->expectExceptionCode(OrganizationException::ORGANIZATION_TYPE_IS_NOT_DEFINED);
 		
-		$oOrganizationsResponse = new OrganizationsResponse(
-			$aResponse
-		);
+		$oOrganizationsResponse = $this->getResponseByArray($aResponse);
 		
 	}
 

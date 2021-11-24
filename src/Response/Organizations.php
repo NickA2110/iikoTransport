@@ -6,16 +6,20 @@ use IikoTransport\Entity\Organization\OrganizationExtended;
 use IikoTransport\Entity\Organization\OrganizationSimple;
 use IikoTransport\Entity\Organization\Exception as OrganizationException;
 
-class Organizations {
+class Organizations extends Common {
 	var $aOrganizations = [];
 
-	function __construct(array $aResponseBody)
+	public function parseBody(): self
 	{
-		if (!empty($aResponseBody['organizations'])) {
+		$aBody = $this->getBodyAsArray();
+
+		if (!empty($aBody['organizations'])) {
 			$this->aOrganizations = $this->getOrganizationFromResponseArray(
-				$aResponseBody['organizations']
+				$aBody['organizations']
 			);
 		}
+
+		return $this;
 	}
 
 	function getOrganizationFromResponseArray(array $aOrganizations): array
