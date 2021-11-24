@@ -11,47 +11,57 @@ use IikoTransport\Entity\Nomenclature\Product\SizePrice as ProductSizePrice;
 use IikoTransport\Entity\Nomenclature\ProductCategory;
 use IikoTransport\Entity\Nomenclature\Size;
 
-class Nomenclature
+class Nomenclature extends Common
 {
-	var $aGroups = [];
+	var $aGroups;
 
-	var $aProductCategories = [];
+	var $aProductCategories;
 
-	var $aProducts = [];
+	var $aProducts;
 
-	var $aSizes = [];
+	var $aSizes;
 
 	var $nRevision;
 
-	function __construct(array $aResponseBody)
+	public function parseBody(): IResponse
 	{
-		if (!empty($aResponseBody['groups'])) {
+		$this->aGroups = [];
+		$this->aProductCategories = [];
+		$this->aProducts = [];
+		$this->aSizes = [];
+		$this->nRevision = 0;
+
+		$aBody = $this->getBodyAsArray();
+
+		if (!empty($aBody['groups'])) {
 			$this->aGroups = $this->getGroupsFromResponseArray(
-				$aResponseBody['groups']
+				$aBody['groups']
 			);
 		}
 
-		if (!empty($aResponseBody['productCategories'])) {
+		if (!empty($aBody['productCategories'])) {
 			$this->aProductCategories = $this->getProductCategoriesFromResponseArray(
-				$aResponseBody['productCategories']
+				$aBody['productCategories']
 			);
 		}
 
-		if (!empty($aResponseBody['products'])) {
+		if (!empty($aBody['products'])) {
 			$this->aProducts = $this->getProductsFromResponseArray(
-				$aResponseBody['products']
+				$aBody['products']
 			);
 		}
 
-		if (!empty($aResponseBody['sizes'])) {
+		if (!empty($aBody['sizes'])) {
 			$this->aSizes = $this->getSizesFromResponseArray(
-				$aResponseBody['sizes']
+				$aBody['sizes']
 			);
 		}
 
-		if (!empty($aResponseBody['revision'])) {
-			$this->nRevision = (int) $aResponseBody['revision'];
+		if (!empty($aBody['revision'])) {
+			$this->nRevision = (int) $aBody['revision'];
 		}
+
+		return $this;
 	}
 
 	function getGroupsFromResponseArray(array $aGroups): array
@@ -253,26 +263,41 @@ class Nomenclature
 
 	public function getGroups(): array
 	{
+		if (!is_array($this->aGroups)) {
+			$this->parseBody();
+		}
 		return $this->aGroups;
 	}
 
 	public function getProductCategories(): array
 	{
+		if (!is_array($this->aProductCategories)) {
+			$this->parseBody();
+		}
 		return $this->aProductCategories;
 	}
 
 	public function getProducts(): array
 	{
+		if (!is_array($this->aProducts)) {
+			$this->parseBody();
+		}
 		return $this->aProducts;
 	}
 
 	public function getSizes(): array
 	{
+		if (!is_array($this->aSizes)) {
+			$this->parseBody();
+		}
 		return $this->aSizes;
 	}
 
 	public function getRevision(): int
 	{
+		if (!is_numeric($this->nRevision)) {
+			$this->parseBody();
+		}
 		return $this->nRevision;
 	}
 }

@@ -6,7 +6,8 @@ use IikoTransport\Entity\Nomenclature\Group;
 use IikoTransport\Entity\Nomenclature\Product\Product;
 use IikoTransport\Entity\Nomenclature\ProductCategory;
 use IikoTransport\Entity\Nomenclature\Size;
-use IikoTransport\Response\Nomenclature as Response; 
+use IikoTransport\Request\Common as CommonRequest;
+use IikoTransport\Response\Nomenclature as Response;
 use PHPUnit\Framework\TestCase;
 
 class NomenclatureTest extends TestCase 
@@ -15,9 +16,7 @@ class NomenclatureTest extends TestCase
 	/** @dataProvider providerCreateResponse */
 	public function testCreateResponse($aResponse) {
 		
-		$oResponse = new Response(
-			$aResponse
-		);
+		$oResponse = $this->getResponseByArray($aResponse);
 		
 		$this->checkGroups($oResponse);
 		$this->checkProductCategories($oResponse);
@@ -26,6 +25,17 @@ class NomenclatureTest extends TestCase
 
 		$this->assertNotEmpty($oResponse->getRevision());
 	}
+
+  function getResponseByArray(array $aResponse): Response
+  {
+    $oResponse = new Response(
+      $oRequest = $this->createMock(CommonRequest::class),
+      $nHttpStatus = 200,
+      $aHeaders = [],
+      json_encode($aResponse)
+    );
+    return $oResponse->parseBody();
+  }
 
 	function checkGroups(Response $oResponse) {
 		$aResult = $oResponse->getGroups();
