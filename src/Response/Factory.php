@@ -6,7 +6,8 @@ use IikoTransport\Request\{
     Nomenclature,
     Organizations,
     PaymentTypes,
-    TerminalGroups
+    TerminalGroups,
+    Combo\GetCombosInfo
 };
 
 class Factory 
@@ -45,6 +46,8 @@ class Factory
                 return $this->getResponseByRequestClass(PaymentTypes::class);
             case $oRequest instanceof TerminalGroups:
                 return $this->getResponseByRequestClass(TerminalGroups::class);
+            case $oRequest instanceof GetCombosInfo:
+                return $this->getResponseByRequestClass(GetCombosInfo::class);
         }
 
         return $this->oResponse;
