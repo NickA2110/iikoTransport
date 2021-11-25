@@ -1,20 +1,20 @@
 <?php 
 
-namespace IikoTransport\Tests\Request;
+namespace IikoTransport\Tests\Request\Combo;
 
-use IikoTransport\Request\TerminalGroups as Request; 
+use IikoTransport\Request\Combo\GetCombosInfo as Request; 
 use IikoTransport\Tests\ApiKey;
+use IikoTransport\Tests\Request\CommonTrait;
 use PHPUnit\Framework\TestCase;
 
-class TerminalGroupsTest extends TestCase 
+class GetCombosInfoTest extends TestCase 
 {
-	use CommonTrait,
-		OrganizationsAndIncludeDisabledTrait;
+	use CommonTrait;
 
 	public function testUri() {
 		$oRequest = $this->getRequest();
 		$this->assertEquals(
-			$sUri = 'terminal_groups',
+			$sUri = 'combo/get_combos_info',
 			$sUriResult = $oRequest->getUri(),
 			"Request url '{$sUriResult}' is not equals '{$sUri}'"
 		);
@@ -22,9 +22,7 @@ class TerminalGroupsTest extends TestCase
 
 	function getRequest(): Request {
 		$oRequest = new Request(
-			$aOrganizationIds = [
-				ApiKey::getOrganizationId(),
-			],
+			$sOrganizationId = ApiKey::getOrganizationId(),
 		);
 		return $oRequest;
 	}

@@ -22,7 +22,7 @@ class PaymentTypesTest extends TestCase
 	function getRequest(): Request {
 		$oRequest = new Request(
 			$aOrganizationIds = [
-				ApiKey::getApiKey(),
+				ApiKey::getOrganizationId(),
 			],
 		);
 		return $oRequest;

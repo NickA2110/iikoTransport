@@ -21,7 +21,7 @@ class NomenclatureTest extends TestCase
 
 	function getRequest(): Request {
 		$oRequest = new Request(
-			$sOrganizationId = ApiKey::getApiKey()
+			$sOrganizationId = ApiKey::getOrganizationId()
 		);
 		return $oRequest;
 	}
