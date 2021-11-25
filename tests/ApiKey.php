@@ -7,6 +7,7 @@ class ApiKey
 	static $sApiKey;
 	static $sOrganizationId;
 	static $sTerminalGroupId;
+	static $sCityId;
 
 	static public function getApiKey(): string
 	{
@@ -30,5 +31,13 @@ class ApiKey
 			static::$sTerminalGroupId = trim(file_get_contents(__DIR__ . "/testKeys/terminalGroupId.txt"));
 		}
 		return static::$sTerminalGroupId;
+	}
+
+	static public function getCityId(): string 
+	{
+		if (empty(static::$sCityId)) {
+			static::$sCityId = trim(file_get_contents(__DIR__ . "/testKeys/cityId.txt"));
+		}
+		return static::$sCityId;
 	}
 }
