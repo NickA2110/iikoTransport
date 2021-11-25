@@ -7,7 +7,8 @@ use IikoTransport\Request\{
     Organizations,
     PaymentTypes,
     TerminalGroups,
-    Combo\GetCombosInfo
+    TerminalGroups\IsAlive,
+    Combo\GetCombosInfo,
 };
 
 class Factory 
@@ -48,6 +49,8 @@ class Factory
                 return $this->getResponseByRequestClass(TerminalGroups::class);
             case $oRequest instanceof GetCombosInfo:
                 return $this->getResponseByRequestClass(GetCombosInfo::class);
+            case $oRequest instanceof IsAlive:
+                return $this->getResponseByRequestClass(IsAlive::class);
         }
 
         return $this->oResponse;

@@ -50,6 +50,10 @@ class FactoryTest extends TestCase
 				'oResponse' => $this->getResponse(IikoTransport\Request\Combo\GetCombosInfo::class),
 				'sClass' => IikoTransport\Response\Combo\GetCombosInfo::class,
 			],
+			'TerminalGroups.IsAlive' => [
+				'oResponse' => $this->getResponse(IikoTransport\Request\TerminalGroups\IsAlive::class),
+				'sClass' => IikoTransport\Response\TerminalGroups\IsAlive::class,
+			],
 		];
 	}
 
