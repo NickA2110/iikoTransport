@@ -54,6 +54,18 @@ class FactoryTest extends TestCase
 				'oResponse' => $this->getResponse(IikoTransport\Request\TerminalGroups\IsAlive::class),
 				'sClass' => IikoTransport\Response\TerminalGroups\IsAlive::class,
 			],
+			'Regions' => [
+				'oResponse' => $this->getResponse(IikoTransport\Request\Regions::class),
+				'sClass' => IikoTransport\Response\Regions::class,
+			],
+			'Cities' => [
+				'oResponse' => $this->getResponse(IikoTransport\Request\Cities::class),
+				'sClass' => IikoTransport\Response\Cities::class,
+			],
+			'StreetsByCity' => [
+				'oResponse' => $this->getResponse(IikoTransport\Request\StreetsByCity::class),
+				'sClass' => IikoTransport\Response\StreetsByCity::class,
+			],
 		];
 	}
 

@@ -9,6 +9,9 @@ use IikoTransport\Request\{
     TerminalGroups,
     TerminalGroups\IsAlive,
     Combo\GetCombosInfo,
+    Regions,
+    Cities,
+    StreetsByCity
 };
 
 class Factory 
@@ -51,6 +54,12 @@ class Factory
                 return $this->getResponseByRequestClass(GetCombosInfo::class);
             case $oRequest instanceof IsAlive:
                 return $this->getResponseByRequestClass(IsAlive::class);
+            case $oRequest instanceof Regions:
+                return $this->getResponseByRequestClass(Regions::class);
+            case $oRequest instanceof Cities:
+                return $this->getResponseByRequestClass(Cities::class);
+            case $oRequest instanceof StreetsByCity:
+                return $this->getResponseByRequestClass(StreetsByCity::class);
         }
 
         return $this->oResponse;
