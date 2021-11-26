@@ -11,7 +11,8 @@ use IikoTransport\Request\{
     Combo\GetCombosInfo,
     Regions,
     Cities,
-    StreetsByCity
+    StreetsByCity,
+    Loyalty\GetCustomerInfo
 };
 
 class Factory 
@@ -60,6 +61,8 @@ class Factory
                 return $this->getResponseByRequestClass(Cities::class);
             case $oRequest instanceof StreetsByCity:
                 return $this->getResponseByRequestClass(StreetsByCity::class);
+            case $oRequest instanceof GetCustomerInfo:
+                return $this->getResponseByRequestClass(GetCustomerInfo::class);
         }
 
         return $this->oResponse;

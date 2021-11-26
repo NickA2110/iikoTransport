@@ -66,6 +66,10 @@ class FactoryTest extends TestCase
 				'oResponse' => $this->getResponse(IikoTransport\Request\StreetsByCity::class),
 				'sClass' => IikoTransport\Response\StreetsByCity::class,
 			],
+			'Loyalty.GetCustomerInfo' => [
+				'oResponse' => $this->getResponse(IikoTransport\Request\Loyalty\GetCustomerInfo::class),
+				'sClass' => IikoTransport\Response\Loyalty\GetCustomerInfo::class,
+			],
 		];
 	}
 
