@@ -5,8 +5,8 @@ namespace IikoTransport\Entity\Order;
 abstract class Item
 {
 	const types = [
-		'product' => 'product',
-		'compound' => 'compound',
+		'Product' => 'Product',
+		'Compound' => 'Compound',
 	];
 
 	public $type;
@@ -18,6 +18,18 @@ abstract class Item
 	public $comboInformation;
 
 	public $comment;
+
+	public function setType(string $type): self
+	{
+		if (!isset(static::types[$type])) {
+			throw new Exception(
+				"Type '{$type}' is not in white list Order\\Item::types",
+				Exception::ITEM_TYPE_IS_NOT_IN_WHITE_LIST
+			);
+		}
+		$this->type = $type;
+		return $this;
+	}
 
 	public function setAmount(float $amount): self
 	{

@@ -79,4 +79,20 @@ class Customer
 		$this->gender = $gender;
 		return $this;
 	}
+
+	public function toArray(): array
+	{
+		$aData = [];
+		/*
+		$aData['id'] = $this->id;
+		$aData['name'] = $this->name;
+		$aData['surname'] = $this->surname;
+		$aData['comment'] = $this->comment;
+		$aData['birthdate'] = $this->birthdate;
+		$aData['email'] = $this->email;
+		*/
+		$aData['shouldReceivePromoActionsInfo'] = $this->shouldReceivePromoActionsInfo;
+		$aData['gender'] = $this->gender;
+		return $aData;
+	}
 }

@@ -2,6 +2,8 @@
 
 namespace IikoTransport\Tests;
 
+use IikoTransport\Entity\Order\Customer;
+
 class ApiKey
 {
 	static $sApiKey;
@@ -9,6 +11,8 @@ class ApiKey
 	static $sTerminalGroupId;
 	static $sCityId;
 	static $sCustomerPhone;
+	static $oCustomer;
+	static $sProductId;
 
 	static public function getApiKey(): string
 	{
@@ -48,5 +52,38 @@ class ApiKey
 			static::$sCustomerPhone = trim(file_get_contents(__DIR__ . "/testKeys/customerPhone.txt"));
 		}
 		return static::$sCustomerPhone;
+	}
+
+	static public function getCustomer(): Customer
+	{
+		if (empty(static::$oCustomer)) {
+			$aCustomer = json_decode(
+				file_get_contents(__DIR__ . "/testKeys/customer.txt"),
+				$bAsArray = true,
+				$nDepth = 512,
+				JSON_THROW_ON_ERROR
+			);
+			static::$oCustomer = new Customer();
+			static::$oCustomer
+				->setId($aCustomer['id'])
+				->setName($aCustomer['name'])
+				->setSurname($aCustomer['surname'])
+				->setComment($aCustomer['comment'])
+				->setBirthdate($aCustomer['birthdate'])
+				->setEmail($aCustomer['email'])
+				->setShouldReceivePromoActionsInfo(
+					$aCustomer['shouldReceivePromoActionsInfo']
+				)
+				->setGender($aCustomer['gender']);
+		}
+		return static::$oCustomer;
+	}
+
+	static public function getProductId(): string
+	{
+		if (empty(static::$sProductId)) {
+			static::$sProductId = trim(file_get_contents(__DIR__ . "/testKeys/productId.txt"));
+		}
+		return static::$sProductId;
 	}
 }

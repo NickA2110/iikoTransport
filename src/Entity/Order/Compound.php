@@ -12,7 +12,7 @@ class Compound extends Item
 
 	function __construct()
 	{
-		$this->type = static::types['compound'];
+		$this->type = $this->setType('Compound');
 	}
 
 	public function primaryComponent(CompoundComponent $primaryComponent): self
