@@ -2,7 +2,10 @@
 
 namespace IikoTransport\Tests\Entity\Order;
 
+use IikoTransport\Entity\Order\Card;
+use IikoTransport\Entity\Order\DiscountsInfo;
 use IikoTransport\Entity\Order\Exception;
+use IikoTransport\Entity\Order\IikoCard5Info;
 use IikoTransport\Entity\Order\Item;
 use IikoTransport\Entity\Order\Order as Entity;
 use IikoTransport\Entity\Order\Product;
@@ -54,6 +57,22 @@ class OrderTest extends OrderTestCase
 		];
 		$aMinimalData = $aMinimalDataWithoutServiceType + [
 			'orderServiceType' => $someServiceType,
+		];
+
+		$oIikoCard5InfoForSet = (new IikoCard5Info())
+			->setCoupon($someString);
+		$aIikoCard5InfoForCheck = [
+			'coupon' => $someString,
+		];
+
+		$oDiscountsInfoForSet = (new DiscountsInfo())
+			->setCard(
+				(new Card())->setTrack($someString)
+			);
+		$aDiscountsInfoForCheck = [
+			'card' => [
+				'track' => $someString,
+			],
 		];
 
 		return [
@@ -238,26 +257,24 @@ class OrderTest extends OrderTestCase
 				]
 			],
 
-			/** @todo discountsInfo test */
 			'good.set.discountsInfo' => [
 				'aSets' => $aMinimalSets + [
-					'setDiscountsInfo' => null, // $oDiscountsInfoForSet,
+					'setDiscountsInfo' => $oDiscountsInfoForSet,
 				],
 				'aTests' => [
 					'aData' => $aMinimalData + [
-						// 'discountsInfo' => $aDiscountsInfoForCheck,
+						'discountsInfo' => $aDiscountsInfoForCheck,
 					],
 				]
 			],
 
-			/** @todo discountsInfo test */
 			'good.set.iikoCard5Info' => [
 				'aSets' => $aMinimalSets + [
-					'setIikoCard5Info' => null, // $oIikoCard5InfoForSet,
+					'setIikoCard5Info' => $oIikoCard5InfoForSet,
 				],
 				'aTests' => [
 					'aData' => $aMinimalData + [
-						// 'iikoCard5Info' => $aIikoCard5InfoForCheck,
+						'iikoCard5Info' => $aIikoCard5InfoForCheck,
 					],
 				]
 			],

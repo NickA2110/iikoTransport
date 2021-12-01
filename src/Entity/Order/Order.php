@@ -4,6 +4,8 @@ namespace IikoTransport\Entity\Order;
 
 class Order implements IOrder
 {
+	use ObjectsToNestedArrayTrait;
+
 	const orderServiceTypes = [
 		'DeliveryByClient' => 'DeliveryByClient',
 		'DeliveryByCourier' => 'DeliveryByCourier',
@@ -268,14 +270,5 @@ class Order implements IOrder
 		$this->getValidPhone($this->phone);
 		$this->getValidItems($this->items);
 		return $this;
-	}
-
-	function arrayObjectsToNestedArray(array $items): array
-	{
-		$aItems = [];
-		foreach ($items as $item) {
-			$aItems[] = $item->toArray();
-		}
-		return $aItems;
 	}
 }

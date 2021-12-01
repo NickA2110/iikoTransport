@@ -32,4 +32,6 @@ class Exception extends \IikoTransport\Exception {
 	const PAYMENT_ADDITIONAL_DATA_CREDENTIAL_IS_NOT_SET = 22;
 
 	const ONE_OF_FIELD_ORDERTYPEID_OR_ORDERSERVICETYPE_REQUIRED = 23;
+
+	const TRACK_IS_NOT_SET = 24;
 }
