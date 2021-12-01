@@ -5,7 +5,6 @@ namespace IikoTransport\Tests\Entity\Order;
 use IikoTransport\Entity\Order\Exception;
 use IikoTransport\Entity\Order\Payment as Entity;
 use IikoTransport\Entity\Order\PaymentAdditionalData;
-use IikoTransport\Tests\ApiKey;
 use PHPUnit\Framework\TestCase;
 
 class PaymentTest extends OrderTestCase 
@@ -20,12 +19,13 @@ class PaymentTest extends OrderTestCase
 	function providerEntityVars(): array
 	{
 		$someGuid = '01234567-0123-0123-0123-0123456789ab';
+		$somePhone = '+79998887766';
 
 		$oPaymentAdditionalData = (new PaymentAdditionalData())
 			->setSearchScope(PaymentAdditionalData::searchScopes['Phone'])
-			->setCredential(ApiKey::getCustomerPhone());
+			->setCredential($somePhone);
 		$aPaymentAdditionalData = [
-			'credential' => ApiKey::getCustomerPhone(),
+			'credential' => $somePhone,
 			'searchScope' => PaymentAdditionalData::searchScopes['Phone'],
 			'type' => PaymentAdditionalData::types['IikoCard'],
 		];

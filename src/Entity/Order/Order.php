@@ -78,7 +78,9 @@ class Order implements IOrder
 	public function toArray(): array
 	{
 		$this->checkFields();
+
 		$aData = [];
+		
 		$aData['phone'] = $this->phone;
 		$aData['orderServiceType'] = $this->orderServiceType;
 		// $aData['sourceKey'] = $this->sourceKey;

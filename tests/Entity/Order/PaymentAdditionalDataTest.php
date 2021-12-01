@@ -35,6 +35,18 @@ class PaymentAdditionalDataTest extends OrderTestCase
 				]
 			],
 
+			'set.undefinedType' => [
+				'aSets' => [
+					'setType' => 'undefinedType'
+				],
+				'aTests' => [
+					'aException' => [
+						'exception' => Exception::class,
+						'code' => Exception::PAYMENT_ADDITIONAL_DATA_TYPE_IS_NOT_IN_WHITE_LIST,
+					],
+				]
+			],
+
 			'without.searchScope' => [
 				'aSets' => [
 				],

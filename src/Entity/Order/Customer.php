@@ -70,27 +70,43 @@ class Customer
 
 	public function setGender(string $gender): self
 	{
+		$this->gender = $this->getValidGender($gender);
+		return $this;
+	}
+
+	function getValidGender(string $gender): string
+	{
 		if (!isset(static::genders[$gender])) {
 			throw new Exception(
 				"Gender '{$gender}' is not in white list Order\\Customer::genders",
 				Exception::GENDER_IS_NOT_IN_WHITE_LIST
 			);
 		}
-		$this->gender = $gender;
-		return $this;
+		return static::genders[$gender];
 	}
 
 	public function toArray(): array
 	{
 		$aData = [];
-		/*
-		$aData['id'] = $this->id;
-		$aData['name'] = $this->name;
-		$aData['surname'] = $this->surname;
-		$aData['comment'] = $this->comment;
-		$aData['birthdate'] = $this->birthdate;
-		$aData['email'] = $this->email;
-		*/
+
+		if (!is_null($this->id)) {
+			$aData['id'] = $this->id;
+		}
+		if (!is_null($this->name)) {
+			$aData['name'] = $this->name;
+		}
+		if (!is_null($this->surname)) {
+			$aData['surname'] = $this->surname;
+		}
+		if (!is_null($this->comment)) {
+			$aData['comment'] = $this->comment;
+		}
+		if (!is_null($this->birthdate)) {
+			$aData['birthdate'] = $this->birthdate;
+		}
+		if (!is_null($this->email)) {
+			$aData['email'] = $this->email;
+		}
 		$aData['shouldReceivePromoActionsInfo'] = $this->shouldReceivePromoActionsInfo;
 		$aData['gender'] = $this->gender;
 		return $aData;

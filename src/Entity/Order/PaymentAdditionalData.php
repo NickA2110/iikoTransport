@@ -25,11 +25,28 @@ class PaymentAdditionalData
 
 	public function setCredential(string $credential): self
 	{
-		$this->credential = $credential;
+		$this->credential = $this->getValidCredential($credential);
 		return $this;
 	}
 
+	function getValidCredential(?string $credential): string
+	{
+		if (empty($credential)) {
+			throw new Exception(
+				"PaymentAdditionalData credential is not set",
+				Exception::PAYMENT_ADDITIONAL_DATA_CREDENTIAL_IS_NOT_SET
+			);
+		}
+		return $credential;
+	}
+
 	public function setSearchScope(string $searchScope): self
+	{
+		$this->searchScope = $this->getValidSearchScope($searchScope);
+		return $this;
+	}
+
+	function getValidSearchScope(?string $searchScope): string
 	{
 		if (!isset(static::searchScopes[$searchScope])) {
 			throw new Exception(
@@ -37,11 +54,16 @@ class PaymentAdditionalData
 				Exception::SEARCH_SCOPE_IS_NOT_IN_WHITE_LIST
 			);
 		}
-		$this->searchScope = $searchScope;
-		return $this;
+		return static::searchScopes[$searchScope];
 	}
 
 	public function setType(string $type): self
+	{
+		$this->type = $this->getValidType($type);
+		return $this;
+	}
+
+	function getValidType(?string $type): string
 	{
 		if (!isset(static::types[$type])) {
 			throw new Exception(
@@ -49,8 +71,7 @@ class PaymentAdditionalData
 				Exception::PAYMENT_ADDITIONAL_DATA_TYPE_IS_NOT_IN_WHITE_LIST
 			);
 		}
-		$this->type = $type;
-		return $this;
+		return static::types[$type];
 	}
 
 	public function toArray(): array
@@ -68,18 +89,9 @@ class PaymentAdditionalData
 
 	function checkFields(): self
 	{
-		if (!isset(static::searchScopes[$this->searchScope])) {
-			throw new Exception(
-				"SearchScope '{$this->searchScope}' is not in white list Order\\PaymentAdditionalData::searchScopes",
-				Exception::SEARCH_SCOPE_IS_NOT_IN_WHITE_LIST
-			);
-		}
-		if (is_null($this->credential)) {
-			throw new Exception(
-				"PaymentAdditionalData credential is not set",
-				Exception::PAYMENT_ADDITIONAL_DATA_CREDENTIAL_IS_NOT_SET
-			);
-		}
+		$this->getValidSearchScope($this->searchScope);
+		$this->getValidCredential($this->credential);
+		$this->getValidType($this->type);
 		return $this;
 	}
 }
