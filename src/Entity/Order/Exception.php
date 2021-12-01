@@ -8,7 +8,6 @@ class Exception extends \IikoTransport\Exception {
 	const ITEM_TYPE_IS_NOT_IN_WHITE_LIST = 3;
 	const ORDER_SERVICE_TYPE_IS_NOT_IN_WHITE_LIST = 4;
 	
-	const ORDER_SERVICE_TYPE_IS_NOT_SET = 5;
 	const PHONE_IS_NOT_SET = 6;
 	const ITEMS_IS_NOT_SET = 7;
 	
@@ -31,4 +30,6 @@ class Exception extends \IikoTransport\Exception {
 	const SEARCH_SCOPE_IS_NOT_IN_WHITE_LIST = 20;
 	const PAYMENT_ADDITIONAL_DATA_TYPE_IS_NOT_IN_WHITE_LIST = 21;
 	const PAYMENT_ADDITIONAL_DATA_CREDENTIAL_IS_NOT_SET = 22;
+
+	const ONE_OF_FIELD_ORDERTYPEID_OR_ORDERSERVICETYPE_REQUIRED = 23;
 }
