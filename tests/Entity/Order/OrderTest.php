@@ -6,6 +6,7 @@ use IikoTransport\Entity\Order\Card;
 use IikoTransport\Entity\Order\DeliveryPoint;
 use IikoTransport\Entity\Order\DiscountsInfo;
 use IikoTransport\Entity\Order\Exception;
+use IikoTransport\Entity\Order\Guests;
 use IikoTransport\Entity\Order\IikoCard5Info;
 use IikoTransport\Entity\Order\Item;
 use IikoTransport\Entity\Order\Order as Entity;
@@ -58,6 +59,14 @@ class OrderTest extends OrderTestCase
 		];
 		$aMinimalData = $aMinimalDataWithoutServiceType + [
 			'orderServiceType' => $someServiceType,
+		];
+
+		$oGuests = (new Guests())
+			->setСount(2)
+			->setSplitBetweenPersons(false);
+		$aGuestsForCheck = [
+			'count' => 2,
+			'splitBetweenPersons' => false,
 		];
 
 		$oDeliveryPoint = (new DeliveryPoint());
@@ -178,14 +187,13 @@ class OrderTest extends OrderTestCase
 				]
 			],
 
-			/** @todo guests test */
 			'good.set.guests' => [
 				'aSets' => $aMinimalSets + [
-					'setGuests' => null,
+					'setGuests' => $oGuests,
 				],
 				'aTests' => [
 					'aData' => $aMinimalData + [
-						// 'guests' => null,
+						'guests' => $aGuestsForCheck,
 					],
 				]
 			],

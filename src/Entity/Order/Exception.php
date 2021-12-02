@@ -40,4 +40,7 @@ class Exception extends \IikoTransport\Exception {
 
 	const LATITUDE_IS_NOT_SET = 27;
 	const LONGITUDE_IS_NOT_SET = 28;
+
+	const COUNT_IS_NOT_SET = 29;
+	const SPLIT_BETWEEN_PERSONS_IS_NOT_SET = 30;
 }
