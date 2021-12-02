@@ -3,6 +3,7 @@
 namespace IikoTransport\Tests\Entity\Order;
 
 use IikoTransport\Entity\Order\Card;
+use IikoTransport\Entity\Order\Combo;
 use IikoTransport\Entity\Order\DeliveryPoint;
 use IikoTransport\Entity\Order\DiscountsInfo;
 use IikoTransport\Entity\Order\Exception;
@@ -10,6 +11,7 @@ use IikoTransport\Entity\Order\Guests;
 use IikoTransport\Entity\Order\IikoCard5Info;
 use IikoTransport\Entity\Order\Item;
 use IikoTransport\Entity\Order\Order as Entity;
+use IikoTransport\Entity\Order\Payment;
 use IikoTransport\Entity\Order\Product;
 use PHPUnit\Framework\TestCase;
 
@@ -85,6 +87,40 @@ class OrderTest extends OrderTestCase
 			'card' => [
 				'track' => $someString,
 			],
+		];
+
+		$aCombosForSet = [
+			(new Combo())
+				->setId($someGuid)
+				->setName($someName)
+				->setAmount(1)
+				->setPrice(10.01)
+				->setSourceId($someGuid),
+		];
+		$aCombosForCheck = [
+			[
+				'id' => $someGuid,
+				'name' => $someName,
+				'amount' => 1,
+				'price' => 10.01,
+				'sourceId' => $someGuid,
+			]
+		];
+
+		$aPaymentsForSet = [
+			(new Payment())
+				->setPaymentTypeKind(Payment::paymentTypeKinds['Cash'])
+				->setSum(10.01)
+				->setPaymentTypeId($someGuid)
+				->setIsProcessedExternally(false),
+		];
+		$aPaymentsForCheck = [
+			[
+				'paymentTypeKind' => Payment::paymentTypeKinds['Cash'],
+				'sum' => 10.01,
+				'paymentTypeId' => $someGuid,
+				'isProcessedExternally' => false,
+			]
 		];
 
 		return [
@@ -220,26 +256,24 @@ class OrderTest extends OrderTestCase
 				]
 			],
 
-			/** @todo combos test */
 			'good.set.combos' => [
 				'aSets' => $aMinimalSets + [
-					'setCombos' => [], // $aCombosForSet,
+					'setCombos' => $aCombosForSet,
 				],
 				'aTests' => [
 					'aData' => $aMinimalData + [
-						// 'combos' => $aCombosForCheck,
+						'combos' => $aCombosForCheck,
 					],
 				]
 			],
 
-			/** @todo payments test */
 			'good.set.payments' => [
 				'aSets' => $aMinimalSets + [
-					'setPayments' => [], // $aPaymentsForSet,
+					'setPayments' => $aPaymentsForSet,
 				],
 				'aTests' => [
 					'aData' => $aMinimalData + [
-						// 'payments' => $aPaymentsForCheck,
+						'payments' => $aPaymentsForCheck,
 					],
 				]
 			],

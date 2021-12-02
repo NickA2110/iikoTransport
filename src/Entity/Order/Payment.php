@@ -25,32 +25,70 @@ class Payment
 
 	public function setPaymentTypeKind(string $paymentTypeKind): self
 	{
+		$this->paymentTypeKind = $this->getValidPaymentTypeKind($paymentTypeKind);
+		return $this;
+	}
+
+	function getValidPaymentTypeKind(?string $paymentTypeKind): string
+	{
 		if (!isset(static::paymentTypeKinds[$paymentTypeKind])) {
 			throw new Exception(
 				"PaymentTypeKind '{$paymentTypeKind}' is not in white list Order\\Payment::paymentTypeKinds",
 				Exception::PAYMENT_TYPE_KIND_IS_NOT_IN_WHITE_LIST
 			);
 		}
-		$this->paymentTypeKind = $paymentTypeKind;
-		return $this;
+		return $paymentTypeKind;
 	}
 
 	public function setSum(float $sum): self
 	{
-		$this->sum = $sum;
+		$this->sum = $this->getValidSum($sum);
 		return $this;
+	}
+
+	function getValidSum(?float $sum): float
+	{
+		if (is_null($sum)) {
+			throw new Exception(
+				"Payment sum is not set",
+				Exception::PAYMENT_SUM_IS_NOT_SET
+			);
+		}
+		return $sum;
 	}
 
 	public function setPaymentTypeId(string $paymentTypeId): self
 	{
-		$this->paymentTypeId = $paymentTypeId;
+		$this->paymentTypeId = $this->getValidPaymentTypeId($paymentTypeId);
 		return $this;
+	}
+
+	function getValidPaymentTypeId(?string $paymentTypeId): string
+	{
+		if (is_null($paymentTypeId)) {
+			throw new Exception(
+				"Payment type id is not set",
+				Exception::PAYMENT_TYPE_ID_IS_NOT_SET
+			);
+		}
+		return $paymentTypeId;
 	}
 
 	public function setIsProcessedExternally(bool $isProcessedExternally): self
 	{
-		$this->isProcessedExternally = $isProcessedExternally;
+		$this->isProcessedExternally = $this->getValidIsProcessedExternally($isProcessedExternally);
 		return $this;
+	}
+
+	function getValidIsProcessedExternally(?bool $isProcessedExternally): bool
+	{
+		if (is_null($isProcessedExternally)) {
+			throw new Exception(
+				"Is Externally Processed is not set",
+				Exception::IS_PROCESSED_EXTERNALLY_IS_NOT_SET
+			);
+		}
+		return $isProcessedExternally;
 	}
 
 	public function setNumber(?string $number): self
@@ -85,31 +123,10 @@ class Payment
 
 	function checkFields(): self
 	{
-		if (!in_array($this->paymentTypeKind, static::paymentTypeKinds)) {
-			throw new Exception(
-				"PaymentTypeKind '{$this->paymentTypeKind}' is not in white list Order\\Payment::paymentTypeKinds",
-				Exception::PAYMENT_TYPE_KIND_IS_NOT_IN_WHITE_LIST
-			);
-		}
-		if (is_null($this->sum)) {
-			throw new Exception(
-				"Payment sum is not set",
-				Exception::PAYMENT_SUM_IS_NOT_SET
-			);
-		}
-		if (is_null($this->paymentTypeId)) {
-			throw new Exception(
-				"Payment type id is not set",
-				Exception::PAYMENT_TYPE_ID_IS_NOT_SET
-			);
-		}
-		if (is_null($this->isProcessedExternally)) {
-			throw new Exception(
-				"Is Externally Processed is not set",
-				Exception::IS_PROCESSED_EXTERNALLY_IS_NOT_SET
-			);
-		}
-		
+		$this->getValidPaymentTypeKind($this->paymentTypeKind);
+		$this->getValidSum($this->sum);
+		$this->getValidPaymentTypeId($this->paymentTypeId);
+		$this->getValidIsProcessedExternally($this->isProcessedExternally);
 		return $this;
 	}
 }
