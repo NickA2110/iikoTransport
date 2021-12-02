@@ -3,6 +3,7 @@
 namespace IikoTransport\Tests\Entity\Order;
 
 use IikoTransport\Entity\Order\Card;
+use IikoTransport\Entity\Order\DeliveryPoint;
 use IikoTransport\Entity\Order\DiscountsInfo;
 use IikoTransport\Entity\Order\Exception;
 use IikoTransport\Entity\Order\IikoCard5Info;
@@ -58,6 +59,8 @@ class OrderTest extends OrderTestCase
 		$aMinimalData = $aMinimalDataWithoutServiceType + [
 			'orderServiceType' => $someServiceType,
 		];
+
+		$oDeliveryPoint = (new DeliveryPoint());
 
 		$oIikoCard5InfoForSet = (new IikoCard5Info())
 			->setCoupon($someString);
@@ -153,14 +156,13 @@ class OrderTest extends OrderTestCase
 				]
 			],
 
-			/** @todo deliveryPoint test */
 			'good.set.deliveryPoint' => [
 				'aSets' => $aMinimalSets + [
-					'setDeliveryPoint' => null,
+					'setDeliveryPoint' => $oDeliveryPoint,
 				],
 				'aTests' => [
 					'aData' => $aMinimalData + [
-						// 'deliveryPoint' => null,
+						'deliveryPoint' => [],
 					],
 				]
 			],

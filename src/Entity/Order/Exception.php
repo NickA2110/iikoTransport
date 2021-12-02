@@ -34,4 +34,10 @@ class Exception extends \IikoTransport\Exception {
 	const ONE_OF_FIELD_ORDERTYPEID_OR_ORDERSERVICETYPE_REQUIRED = 23;
 
 	const TRACK_IS_NOT_SET = 24;
+
+	const STREET_IS_NOT_SET = 25;
+	const HOUSE_IS_NOT_SET = 26;
+
+	const LATITUDE_IS_NOT_SET = 27;
+	const LONGITUDE_IS_NOT_SET = 28;
 }
