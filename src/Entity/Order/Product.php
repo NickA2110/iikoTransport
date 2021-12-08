@@ -4,6 +4,8 @@ namespace IikoTransport\Entity\Order;
 
 class Product extends Item
 {
+	use ObjectsToNestedArrayTrait;
+
 	public $productId;
 
 	public $modifiers;
@@ -19,8 +21,19 @@ class Product extends Item
 
 	public function setProductId(string $productId): self
 	{
-		$this->productId = $productId;
+		$this->productId = $this->getValidProductId($productId);
 		return $this;
+	}
+
+	function getValidProductId(?string $productId): string
+	{
+		if (empty($productId)) {
+			throw new Exception(
+				"ProductId is not set",
+				Exception::PRODUCT_ID_OF_PRODUCT_IS_NOT_SET
+			);
+		}
+		return $productId;
 	}
 
 	public function setModifiers(array $modifiers): self
@@ -48,8 +61,9 @@ class Product extends Item
 		$aData = [];
 		
 		$aData['productId'] = $this->productId;
+		
 		if (!is_null($this->modifiers)) {
-			$aData['modifiers'] = $this->modifiersToArray();
+			$aData['modifiers'] = $this->arrayObjectsToNestedArray($this->modifiers);
 		}
 		if (!is_null($this->price)) {
 			$aData['price'] = $this->price;
@@ -57,8 +71,10 @@ class Product extends Item
 		if (!is_null($this->positionId)) {
 			$aData['positionId'] = $this->positionId;
 		}
+
 		$aData['type'] = $this->type;
 		$aData['amount'] = $this->amount;
+
 		if (!is_null($this->productSizeId)) {
 			$aData['productSizeId'] = $this->productSizeId;
 		}
@@ -74,27 +90,8 @@ class Product extends Item
 
 	function checkFields(): self
 	{
-		if (empty($this->productId)) {
-			throw new Exception(
-				"ProductId is not set",
-				Exception::PRODUCT_ID_OF_PRODUCT_IS_NOT_SET
-			);
-		}
-		if (empty($this->amount)) {
-			throw new Exception(
-				"Amount of product is not set",
-				Exception::AMOUNT_OF_PRODUCT_IS_NOT_SET
-			);
-		}
+		$this->getValidProductId($this->productId);
+		$this->getValidAmount($this->amount);
 		return $this;
-	}
-
-	function modifiersToArray(): array
-	{
-		$aModifiers = [];
-		foreach ($this->modifiers as $modifier) {
-			$aModifiers[] = $modifier->toArray();
-		}
-		return $aModifiers;
 	}
 }

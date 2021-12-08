@@ -33,8 +33,19 @@ abstract class Item
 
 	public function setAmount(float $amount): self
 	{
-		$this->amount = $amount;
+		$this->amount = $this->getValidAmount($amount);
 		return $this;
+	}
+
+	function getValidAmount(?float $amount): float
+	{
+		if (empty($amount)) {
+			throw new Exception(
+				"Amount of product is not set",
+				Exception::AMOUNT_OF_PRODUCT_IS_NOT_SET
+			);
+		}
+		return $amount;
 	}
 
 	public function setProductSizeId(?string $productSizeId): self
