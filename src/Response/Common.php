@@ -69,4 +69,9 @@ class Common implements IResponse
     {
         return $this;
     }
+
+    public function getCorrelationId(): string
+    {
+        return $this->aHeaders['correlationid'][0];
+    }
 }

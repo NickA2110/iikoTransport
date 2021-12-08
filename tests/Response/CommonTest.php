@@ -9,6 +9,8 @@ use IikoTransport\Response\Exception as ResponseException;
 
 class CommonTest extends TestCase 
 {
+	const someCorrelationId = 'b1eba821-3b22-46e8-80ad-1c83432264f8';
+
 	public function testStatusOfGoodResponse()
 	{
 		$oResponse = $this->getGoodResponse();
@@ -20,7 +22,23 @@ class CommonTest extends TestCase
 		$oResponse = new ResponseCommon(
 			$oRequest = new RequestCommon(),
 			$nHttpStatus = 200,
-			$aHeaders = [],
+			$aHeaders = [
+				'content-length' => [
+					'219'
+				],
+				'content-type' => [
+					'application/json; charset=utf-8',
+				],
+				'correlationid' => [
+					static::someCorrelationId,
+				],
+				'date' => [
+					'Wed, 08 Dec 2021 11:29:40 GMT',
+				],
+				'server' => [
+					'Kestrel',
+				],
+			],
 			$sBody = '[]'
 		);
 		return $oResponse;
@@ -69,7 +87,8 @@ class CommonTest extends TestCase
 		);
 	}
 
-	public function testGetBodyAsString() {
+	public function testGetBodyAsString()
+	{
 		$oResponse = $this->getGoodResponse();
 		$sBody = $oResponse->getBodyAsString();
 		$this->assertNotEmpty(
@@ -78,7 +97,8 @@ class CommonTest extends TestCase
 		);
 	}
 
-	public function testGetBodyAsArray() {
+	public function testGetBodyAsArray()
+	{
 		$oResponse = $this->getGoodResponse();
 		$aBody = $oResponse->getBodyAsArray();
 		$this->assertTrue(
@@ -87,7 +107,8 @@ class CommonTest extends TestCase
 		);
 	}
 
-	public function testGetBodyAsArrayFail() {
+	public function testGetBodyAsArrayFail()
+	{
 		$oResponse = $this->getBadResponse();
 		$this->expectException(
 			ResponseException::class,
@@ -100,6 +121,16 @@ class CommonTest extends TestCase
 		$this->assertTrue(
 			is_array($aBody),
 			"Returned body of response is not array"
+		);
+	}
+
+	public function testCorrelationId()
+	{
+		$oResponse = $this->getGoodResponse();
+		$this->assertEquals(
+			$sNeedleCorrelation = static::someCorrelationId,
+			$sCorrelationId = $oResponse->getCorrelationId(),
+			"CorrelationId of response '{$sCorrelationId}' not equals needle '{$sNeedleCorrelation}'"
 		);
 	}
 }
