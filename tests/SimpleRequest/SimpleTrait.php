@@ -8,9 +8,14 @@ use IikoTransport\Tests\ApiKey;
 
 trait SimpleTrait
 {
+	var $oClient;
+
 	function getClient(): Client
 	{
-		return new Client(ApiKey::getApiKey());
+		if (empty($this->oClient)) {
+			$this->oClient = new Client(ApiKey::getApiKey());
+		}
+		return $this->oClient;
 	}
 
 	abstract function getRequest(): CommonRequest;
