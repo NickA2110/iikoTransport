@@ -4,7 +4,7 @@ namespace IikoTransport\Request;
 /**
  *  API Request
  */
-class Common
+class Common implements IRequest
 {
     protected $sUri;
 
