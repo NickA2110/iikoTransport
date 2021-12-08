@@ -1,52 +1,111 @@
-# iikoTransport
-Библиотека для работы с  iikoTransport 
-
+# IikoTransport
+Библиотека для работы с IikoTransport 
 
 ## Install 
 
 ## Get Started
-```
-$transport = new IikoTransport('api key'); 
+```php
+use IikoTransport\Service\Client;
+
+$client = new Client('api key'); 
 ```
 
 
 ## Organization 
 
 ### Returns organizations available to api-login user. 
-.[link].('https://api-ru.iiko.services/#tag/Organizations')
+```php
+use IikoTransport\Request\Organizations;
+
+$request = new Organizations();
+$response = $oClient->request($request);
+$organizations = $response->getOrganizations();
+
+foreach ($organizations as $organization) {
+	var_dump($organization);
+}
 ```
-$response = $transport->getOrganizationManager()->getList();
-echo ($response->toArray()); 
+
+### Returns organizations with additional info
+```php
+use IikoTransport\Request\Organizations;
+
+$request = new Organizations();
+$request->setReturnAdditionalInfo(true);	// <--- set returnAdditionalInfo
+$response = $oClient->request($request);
+$organizations = $response->getOrganizations();
+
+foreach ($organizations as $organization) {
+	var_dump($organization);
+}
 ```
+
 
 ## Terminal groups
+
 ### Method that returns information on groups of delivery terminals.
+```php
+use IikoTransport\Request\Organizations;
+use IikoTransport\Request\TerminalGroups;
+
+// +++ collect organizations
+$request = new Organizations();
+$response = $oClient->request($request);
+$organizations = $response->getOrganizations();
+
+$organizationIds = [];
+foreach ($organizations as $organization) {
+	$organizationIds[] = $organization->id;
+}
+// --- collect organizations
+
+// +++ collect terminal groups
+$request = new TerminalGroups();
+$request->setOrganizationIds($organizationIds)
+$response = $oClient->request($request);
+$terminalGroups = $response->getTerminalGroups();
+
+foreach ($terminalGroups as $terminalGroup) {
+	var_dump($terminalGroup);
+}
+// --- collect terminal groups
 ```
-$response = $transport->getTerminalGroupsManager()->getInfo($organization);
-echo ($response->toArray()); 
-```
+
 ### Method that returns information on availability of group of terminals.
-```
-$response = $transport->getTerminalGroupsManager()->getIsAlive($organization, $terminals);
-echo ($response->toArray()); 
-```
+```php
+use IikoTransport\Request\Organizations;
+use IikoTransport\Request\TerminalGroups;
+use IikoTransport\Request\TerminalGroups\IsAlive;
 
-## Addresses 
-Regions/cities/streets API. 
+// +++ collect organizations
+$request = new Organizations();
+$response = $oClient->request($request);
+$organizations = $response->getOrganizations();
 
-### Returns region details.
-```
-$response = $transport->getAddressesManager()->getRegionDetails($organizations);
-echo ($response->toArray()); 
-```
+$organizationIds = [];
+foreach ($organizations as $organization) {
+	$organizationIds[] = $organization->id;
+}
+// --- collect organizations
 
-### Returns city details. 
-```
-$response = $transport->getAddressesManager()->getCityDetails($organizations);
-echo ($response->toArray()); 
-```
-### Returns street details by city ID.. 
-```
-$response = $transport->getAddressesManager()->getStreetsByCity($organizationId, $city_id);
-echo ($response->toArray()); 
+// +++ collect terminal groups
+$request = new TerminalGroups();
+$request->setOrganizationIds($organizationIds)
+$response = $oClient->request($request);
+$terminalGroups = $response->getTerminalGroups();
+
+$terminalGroupIds = [];
+foreach ($terminalGroups as $terminalGroup) {
+	$terminalGroupIds[] = $terminalGroup->id;
+}
+// --- collect terminal groups
+
+// +++ collect is alive
+$request = new IsAlive($organizationIds, $terminalGroupIds);
+$response = $oClient->request($request);
+$isAliveStatuses = $response->getIsAliveStatuses();
+foreach ($isAliveStatuses as $isAliveStatuse) {
+	var_dump($isAliveStatuse);
+}
+// --- collect is alive
 ```
