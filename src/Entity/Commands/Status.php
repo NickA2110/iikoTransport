@@ -35,4 +35,9 @@ class Status
 		$this->exception = $exception;
 		return $this;
 	}
+
+	public function stateIsSuccess(): bool
+	{
+		return ($this->state == static::states['Success']);
+	}
 }
