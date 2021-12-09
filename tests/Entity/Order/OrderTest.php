@@ -31,6 +31,7 @@ class OrderTest extends OrderTestCase
 		$someString = 'someString';
 		$someServiceType = 'DeliveryByClient';
 		$somePhone = '+79998887766';
+		$someBadPhone = '79998887766';
 
 		$aCustomerForCheck = [
 			'shouldReceivePromoActionsInfo' => false,
@@ -163,6 +164,15 @@ class OrderTest extends OrderTestCase
 
 			'good.minimal' => [
 				'aSets' => $aMinimalSets,
+				'aTests' => [
+					'aData' => $aMinimalData,
+				]
+			],
+
+			'good.minimal.with.badPhone' => [
+				'aSets' => [
+					'setPhone' => $someBadPhone,
+				] + $aMinimalSets,
 				'aTests' => [
 					'aData' => $aMinimalData,
 				]
@@ -333,5 +343,60 @@ class OrderTest extends OrderTestCase
 			->setProductId('01234567-0123-0123-0123-0123456789ab')
 			->setAmount(1.0);
 		return $oProduct;
+	}
+
+
+	/** @dataProvider phoneValidatorProvider */
+	public function testPhoneValidator(
+		string $sInputPhone,
+		string $sTestPhone,
+		array $aException
+	) {
+		if (!empty($aException)) {
+			$this->expectException(
+				$aException['class'],
+				"Phone '{$sInputPhone}' not throw exception"
+			);
+			$this->expectExceptionCode($aException['code']);
+		}
+
+		$oEntity = new Entity();
+
+		$oEntity->setPhone($sInputPhone);
+
+		$this->assertEquals(
+			$sTestPhone,
+			$oEntity->phone,
+			"Order phone '{$oEntity->phone}' not equals needle format '{$sTestPhone}'"
+		);
+	}
+
+	public function phoneValidatorProvider() 
+	{
+		return [
+			'normalized' => [
+				'input' => '+79998887766',
+				'test' => '+79998887766',
+				'exception' => [],
+			],
+			'without.plus' => [
+				'input' => '79998887766',
+				'test' => '+79998887766',
+				'exception' => [],
+			],
+			'from.8' => [
+				'input' => '89998887766',
+				'test' => '+79998887766',
+				'exception' => [],
+			],
+			'short' => [
+				'input' => '28887766',
+				'test' => '',
+				'exception' => [
+					'class' => Exception::class,
+					'code' => Exception::PHONE_IS_INVALID,
+				]
+			],
+		];
 	}
 }

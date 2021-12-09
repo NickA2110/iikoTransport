@@ -2,6 +2,8 @@
 
 namespace IikoTransport\Entity\Order;
 
+use IikoTransport\Service\PhoneConverter;
+
 class Order implements IOrder
 {
 	use ObjectsToNestedArrayTrait;
@@ -76,6 +78,16 @@ class Order implements IOrder
 			throw new Exception(
 				"Phone is not set",
 				Exception::PHONE_IS_NOT_SET
+			);
+		}
+		
+		$phone = PhoneConverter::getFixedPhone($phone);
+
+		if (!preg_match("#^\\+\\d{11}$#ui", $phone)) {
+			$format = '+\\d{11}';
+			throw new Exception(
+				"Invalid phone format of '{$phone}' needle '{$format}'",
+				Exception::PHONE_IS_INVALID
 			);
 		}
 		return $phone;

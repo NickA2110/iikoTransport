@@ -43,4 +43,6 @@ class Exception extends \IikoTransport\Exception {
 
 	const COUNT_IS_NOT_SET = 29;
 	const SPLIT_BETWEEN_PERSONS_IS_NOT_SET = 30;
+
+	const PHONE_IS_INVALID = 31;
 }
