@@ -37,6 +37,11 @@ class Status
 	{
 		return ($this->state == static::states['Success']);
 	}
+	
+	public function stateIsError(): bool
+	{
+		return ($this->state == static::states['Error']);
+	}
 
 	public function getException()
 	{

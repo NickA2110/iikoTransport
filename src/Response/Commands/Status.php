@@ -35,7 +35,7 @@ class Status extends Common
 
 	public function getStatus(): StatusEntity
 	{
-		if (!is_array($this->status)) {
+		if (is_null($this->status)) {
 			$this->parseBody();
 		}
 		return $this->status;
