@@ -13,6 +13,7 @@ use IikoTransport\Request\{
     Cities,
     StreetsByCity,
     Loyalty\GetCustomerInfo,
+    Commands\Status as CommandsStatus,
     Deliveries\Create as DeliveriesCreate
 };
 
@@ -73,6 +74,9 @@ class Factory
 
             case $oRequest instanceof GetCustomerInfo:
                 return $this->getResponseByRequestClass(GetCustomerInfo::class);
+
+            case $oRequest instanceof CommandsStatus:
+                return $this->getResponseByRequestClass(CommandsStatus::class);
                 
             case $oRequest instanceof DeliveriesCreate:
                 return $this->getResponseByRequestClass(DeliveriesCreate::class);

@@ -3,6 +3,7 @@
 namespace IikoTransport\Response\Commands;
 
 use IikoTransport\Entity\Commands\Status as StatusEntity;
+use IikoTransport\Entity\Commands\StatusException;
 use IikoTransport\Response\Common;
 use IikoTransport\Response\IResponse;
 
@@ -26,11 +27,9 @@ class Status extends Common
 	function getStatusFromResponseArray(array $aStatus): StatusEntity
 	{
 		$oStatus = new StatusEntity(
-			$aStatus['state']
+			$aStatus['state'],
+			$aStatus['exception'] ?? null
 		);
-		if (isset($aStatus['exception'])) {
-			$oStatus->setException($aStatus['exception']);
-		}
 		return $oStatus;
 	}
 

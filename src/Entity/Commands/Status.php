@@ -14,9 +14,12 @@ class Status
 
 	public $exception;
 
-	function __construct(string $state)
-	{
+	function __construct(
+		string $state,
+		$exception
+	) {
 		$this->state = $this->getValidState($state);
+		$this->exception = $exception;
 	}
 
 	function getValidState(?string $state): string
@@ -30,14 +33,13 @@ class Status
 		return $state;
 	}
 
-	public function setException(?string $exception): self
-	{
-		$this->exception = $exception;
-		return $this;
-	}
-
 	public function stateIsSuccess(): bool
 	{
 		return ($this->state == static::states['Success']);
+	}
+
+	public function getException()
+	{
+		return $this->exception;
 	}
 }

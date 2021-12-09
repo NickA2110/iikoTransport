@@ -33,6 +33,7 @@ class StatusTest extends TestCase
 			[
 				'aVars' => [
 					'state' => 'Success',
+					'exception' => null,
 				]
 			]
 		];
@@ -42,7 +43,8 @@ class StatusTest extends TestCase
 	{
 		extract($aVars);
 		$oEntity = new Entity(
-			$state
+			$state,
+			$exception
 		);
 		return $oEntity;
 	}

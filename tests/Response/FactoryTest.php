@@ -70,6 +70,10 @@ class FactoryTest extends TestCase
 				'oResponse' => $this->getResponse(IikoTransport\Request\Loyalty\GetCustomerInfo::class),
 				'sClass' => IikoTransport\Response\Loyalty\GetCustomerInfo::class,
 			],
+			'Commands.Status' => [
+				'oResponse' => $this->getResponse(IikoTransport\Request\Commands\Status::class),
+				'sClass' => IikoTransport\Response\Commands\Status::class,
+			],
 			'Deliveries.Create' => [
 				'oResponse' => $this->getResponse(IikoTransport\Request\Deliveries\Create::class),
 				'sClass' => IikoTransport\Response\Deliveries\Create::class,
