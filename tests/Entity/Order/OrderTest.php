@@ -211,14 +211,25 @@ class OrderTest extends OrderTestCase
 				]
 			],
 
-			'good.set.deliveryPoint' => [
+			'good.set.deliveryPoint.with.pickup' => [
 				'aSets' => $aMinimalSets + [
 					'setDeliveryPoint' => $oDeliveryPoint,
 				],
 				'aTests' => [
-					'aData' => $aMinimalData + [
+					'aData' => $aMinimalData,
+				]
+			],
+
+			'good.set.deliveryPoint.with.delivery' => [
+				'aSets' => [
+					'setOrderServiceType' => 'DeliveryByCourier',
+					'setDeliveryPoint' => $oDeliveryPoint,
+				] + $aMinimalSets,
+				'aTests' => [
+					'aData' => [
+						'orderServiceType' => 'DeliveryByCourier',
 						'deliveryPoint' => [],
-					],
+					] + $aMinimalData,
 				]
 			],
 

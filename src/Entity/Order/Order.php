@@ -227,7 +227,10 @@ class Order implements IOrder
 			$aData['orderServiceType'] = $this->orderServiceType;
 		}
 
-		if (!is_null($this->deliveryPoint)) {
+		if (!is_null($this->deliveryPoint)
+			&& !is_null($this->orderServiceType)
+			&& ($this->orderServiceType == static::orderServiceTypes['DeliveryByCourier'])
+		) {
 			$aData['deliveryPoint'] = $this->deliveryPoint->toArray();
 		}
 		if (!is_null($this->comment)) {
