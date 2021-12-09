@@ -12,7 +12,8 @@ use IikoTransport\Request\{
     Regions,
     Cities,
     StreetsByCity,
-    Loyalty\GetCustomerInfo
+    Loyalty\GetCustomerInfo,
+    Deliveries\Create as DeliveriesCreate
 };
 
 class Factory 
@@ -45,24 +46,36 @@ class Factory
         switch (true) {
             case $oRequest instanceof Nomenclature:
                 return $this->getResponseByRequestClass(Nomenclature::class);
+
             case $oRequest instanceof Organizations:
                 return $this->getResponseByRequestClass(Organizations::class);
+
             case $oRequest instanceof PaymentTypes:
                 return $this->getResponseByRequestClass(PaymentTypes::class);
+
             case $oRequest instanceof TerminalGroups:
                 return $this->getResponseByRequestClass(TerminalGroups::class);
+
             case $oRequest instanceof GetCombosInfo:
                 return $this->getResponseByRequestClass(GetCombosInfo::class);
+
             case $oRequest instanceof IsAlive:
                 return $this->getResponseByRequestClass(IsAlive::class);
+
             case $oRequest instanceof Regions:
                 return $this->getResponseByRequestClass(Regions::class);
+
             case $oRequest instanceof Cities:
                 return $this->getResponseByRequestClass(Cities::class);
+
             case $oRequest instanceof StreetsByCity:
                 return $this->getResponseByRequestClass(StreetsByCity::class);
+
             case $oRequest instanceof GetCustomerInfo:
                 return $this->getResponseByRequestClass(GetCustomerInfo::class);
+                
+            case $oRequest instanceof DeliveriesCreate:
+                return $this->getResponseByRequestClass(DeliveriesCreate::class);
         }
 
         return $this->oResponse;
